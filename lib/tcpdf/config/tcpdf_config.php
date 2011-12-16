@@ -123,17 +123,17 @@ if (!defined('K_TCPDF_EXTERNAL_CONFIG')) {
 	/**
 	 * header title
 	 */
-	define ('PDF_HEADER_TITLE', 'MODE FASHION GROUP');
+	define ('PDF_HEADER_TITLE', 'TOKO KANADA');
 	
 	/**
 	 * header description string
 	 */
-	define ('PDF_HEADER_STRING', "Jln. Laksana No 68 ABC, Medan \nTelp. (061) 6643780");
+	define ('PDF_HEADER_STRING', "Citra Raya Square1 B01A 9-10, Tangerang\nTelp. (021) 596 1444 / (021) 594 06633");
 	
 	/**
 	 * image logo
 	 */
-	define ('PDF_HEADER_LOGO', 'mode_logo.png');
+	define ('PDF_HEADER_LOGO', '');
 	
 	/**
 	 * header logo image width [mm]

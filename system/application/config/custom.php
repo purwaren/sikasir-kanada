@@ -3,10 +3,10 @@
 /**
 * Configuration for shop
 */
-$config['shop_code'] = "17";
-$config['shop_name'] = "MODE FASHION PERBAUNGAN";
-$config['shop_address'] = "Jl. Serdang No. 141";
-$config['shop_phone'] = "(061) 799 0009";
+$config['shop_code'] = "KND";
+$config['shop_name'] = "TOKO KANADA";
+$config['shop_address'] = "Citra Raya Square1 B01A 9-10, Tangerang";
+$config['shop_phone'] = "(021) 596 1444 / (021) 594 06633";
 
 /**
 *Screen configuration

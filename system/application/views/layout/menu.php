@@ -1,7 +1,7 @@
 <div id="tabs">
     <ul>
       <?php if($jabatan=='supervisor'|| $jabatan=='absensi') { ?>
-      <li><a class="<?php if($page=='presence') echo 'current' ?>" href="<?php _e(base_url().'presence/check') ?>" accesskey="m"><span class="key">P</span>resence</a></li>
+      <!-- <li><a class="<?php if($page=='presence') echo 'current' ?>" href="<?php _e(base_url().'presence/check') ?>" accesskey="m"><span class="key">P</span>resence</a></li>-->
       <?php } if($jabatan=='admin') {?>
       <li><a class="<?php if($page=='user') echo 'current' ?>" href="<?php _e(base_url().'user') ?>" accesskey="m"><span class="key">U</span>ser</a></li>
       <li><a class="<?php if($page=='tools') echo 'current' ?>" href="<?php _e(base_url().'tools') ?>" accesskey="m"><span class="key">T</span>ools</a></li>
@@ -39,8 +39,7 @@
     <?php } if($page == 'item') {?>
     <p style="float:left;text-align: left; padding-right: 20px;">
         <a href="<?php _e(base_url().'item/add')?>">Mutasi Masuk</a> .:. 
-        <a href="<?php _e(base_url().'item/retur')?>">Retur Barang</a> .:. 
-        <a href="<?php _e(base_url().'item/import')?>">Import Data</a> .:.         
+        <a href="<?php _e(base_url().'item/retur')?>">Retur Barang</a> .:.                
         <a href="<?php _e(base_url().'item/manage')?>">Manajemen Data</a> 
     </p>
     <?php } if($page=='user') { ?>

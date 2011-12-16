@@ -14,7 +14,7 @@ var kassaServer = new Array();
 /**
 * Base url
 */
-var baseUrl = '/';
+var baseUrl = '/kanada/';
 /**
 * Row type
 * 0 -> not accumulated
@@ -32,4 +32,4 @@ var allowPramu = 0;
 */
 var defMsg = new Array();
 defMsg[0] = 'Welcome To'
-defMsg[1] = 'Mode Fashion Group';
+defMsg[1] = 'TOKO KANADA';
