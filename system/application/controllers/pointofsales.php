@@ -378,7 +378,8 @@ class PointOfSales extends Controller {
     {
         //baca input parameter
         $cash = $this->input->post('cash');
-        $id_transaksi = $this->input->post('id_transaksi');
+        $kassa = $this->session->userdata('no_kassa');
+        $id_transaksi = $this->input->post('id_transaksi').$kassa;
         //resi transaksi normal
         if($this->input->post('option')==1 && !empty($id_transaksi))
         {
