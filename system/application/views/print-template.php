@@ -7,12 +7,12 @@
 <body>
 <div id="container">
     <div id="header">
-        <img src="<?php _e(base_url()) ?>css/images/logo_mode.png" />   
-        <h2>MODE FASHION GROUP</h2>
+        <!-- <img src="<?php _e(base_url()) ?>css/images/logo_mode.png" /> -->   
+        <h2><?php echo config_item('shop_name')?></h2>
         <p>
-            Kantor Pusat: <br />
-            Jln. Laksana No. 68 ABC, Medan<br />            
-            Telepon: (061) 372 592
+            Alamat: <br />
+            <?php echo config_item('shop_address')?><br />            
+            Telp. <?php echo config_item('shop_phone')?>
         </p>                  
     </div>
     <div id="content">

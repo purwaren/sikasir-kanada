@@ -6,7 +6,7 @@ body {
 	cursor: none;
 }
 .dialog-form #container {
-	background: url('images/logo_mode.png') no-repeat;
+	background: url('images/shop.jpg') no-repeat;
 	overflow: auto;
 }
 .dialog-form .table-container {	
@@ -20,7 +20,7 @@ body {
 	border-bottom: 2px solid;
 }
 .dialog-form #identifier #spacer {
-	width: 310px;	
+	width: 270px;	
 	display: inline-block;
 }
 .dialog-form #identifier #kassa-identifier {
@@ -33,7 +33,7 @@ body {
 }
 .dialog-form #identifier #toko-identifier {
 	font-size: 1em;	
-	width: 300px;
+	width: 340px;
 	height: 90px;	
 	letter-spacing: 2px;	
 	display: inline-block;	

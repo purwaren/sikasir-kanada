@@ -6,7 +6,7 @@ body {
 	cursor: none;
 }
 .dialog-form #container {
-	background: url('images/logo_mode.png') no-repeat;
+	background: url('images/shop.jpg') no-repeat;
 	overflow: auto;
 }
 .dialog-form .table-container {	
