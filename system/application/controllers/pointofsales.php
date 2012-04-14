@@ -180,7 +180,7 @@ class PointOfSales extends Controller {
     {
         //data berasal dari  pos system
         $kassa = $this->session->userdata('no_kassa');
-        $id_transaksi = $this->input->post('id_trans');
+        $id_transaksi = $this->input->post('id_trans').$kassa;
         $id_barang = $this->input->post('id_barang');
         $qty = $this->input->post('qty');
         $disc = $this->input->post('disc');
@@ -308,6 +308,7 @@ class PointOfSales extends Controller {
     function trans_refund()
     {
         //retrieve data dari client, request ajax
+    	$kassa = $this->session->userdata('no_kassa');    	
         $id_tukar = $this->input->post('id_tukar');
         $qty_tukar = $this->input->post('qty_tukar');
         $id_pengganti = $this->input->post('id_pengganti');
@@ -315,7 +316,7 @@ class PointOfSales extends Controller {
         $disc_pengganti = $this->input->post('disc_pengganti');
         $disc_tukar = $this->input->post('disc_tukar');
         $id_pramu = $this->input->post('id_pramu');
-        $id_transaksi = time();
+        $id_transaksi = time().$kassa;
         $total = $this->input->post('total');
         $total = floor($total/100) * 100;
         //tambah data ke tabel item_transaksi dulu        
@@ -325,7 +326,8 @@ class PointOfSales extends Controller {
             'total'=>$total,
             'diskon'=> 0,
             'id_kasir'=>$this->session->userdata('nik'),
-            'id_pramuniaga'=>$id_pramu          
+            'id_pramuniaga'=>$id_pramu,      
+            'kassa'=>$kassa,
         );
         $this->load->model('transaksi');
         if($this->transaksi->add_transaksi($data))
