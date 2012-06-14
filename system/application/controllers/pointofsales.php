@@ -508,6 +508,7 @@ class PointOfSales extends Controller {
             $cash = $this->input->post('cash');
             $id_tukar = $this->input->post('brg_tukar');
             $qty_tukar = $this->input->post('qty_tukar');
+            $id_transaksi = $this->input->post('id_transaksi');
             //siapkan data resi yang akan diprint
             $this->load->model('transaksi');
             $query = $this->transaksi->last_transaksi($id_transaksi);

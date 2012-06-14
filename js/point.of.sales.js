@@ -643,7 +643,7 @@ function displayMsg(msg) {
     $.post(
             "get_kassa",                     
             function(kassa){                        
-                $('#appletPrinter')[0].writeMessage(msg,kassaServer[kassa]);          
+               // $('#appletPrinter')[0].writeMessage(msg,kassaServer[kassa]);          
             }        
     );    
 }
@@ -895,6 +895,7 @@ function transRefund() {
     var qty_tukar = new Array();
     var disc_tukar = new Array();
     var tukar = $('#detail-tukar tr');
+    var i=0;
     for(i=1;i<tukar.length;i++) {
         brg_tukar[i-1] = $('#detail-tukar tr:nth-child('+(i+1)+') td:nth-child(2)').html();
         qty_tukar[i-1] = $('#qty_refund_'+i).val();
