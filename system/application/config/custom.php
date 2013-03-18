@@ -25,5 +25,10 @@ $config['work_cycle'] = 8;
  */
 $config['port'] = 1234;
 
+/**
+ * Set timezone
+ */
+date_default_timezone_set("Asia/Jakarta");
+
 /* End of file doctypes.php */
 /* Location: application/config/doctypes.php */

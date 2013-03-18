@@ -229,16 +229,20 @@ try {
                         $('#sales').html('Rp. '+$.currency(data,{s:".",d:",",c:0})+',-');
                         $('#dialog-sales').dialog({                     
                             modal: true,
+                            width: 340,
                             buttons: {
-                                Cetak : function() {
-                                    printTempSales();                                    
-                                },
-                                Batal : function() {
+                            	'Batal' : function() {
                                     $(this).dialog('close');
-                                }
+                                },
+                                'Cetak Mutasi' : function() {
+                                    printMutasi();                                    
+                                },
+                                'Cetak' : function() {
+                                    printTempSales();                                    
+                                }                                
                             }
                         });
-                        $('.ui-button').focus();
+                        $('.ui-button:first-child').focus();
                     } 
                 );
             }
@@ -698,6 +702,26 @@ function printTempSales() {
     );
     $('#dialog-sales').dialog('close');
 }
+/**
+ * Print mutasi
+ */
+function printMutasi() {
+    $.post(
+        "mutasi_print",
+        {print: '1'}, 
+        function(receipt){
+            /*$.post(
+                    "get_kassa",                     
+                    function(kassa){                        
+                        $('#appletPrinter')[0].sendReceipt(receipt,kassaServer[kassa]);
+                        //alert(receipt);
+                    }        
+            );*/             
+        }        
+    );
+    $('#dialog-sales').dialog('close');
+}
+
 /**
 * Membatalkan transaksi ke n
 */

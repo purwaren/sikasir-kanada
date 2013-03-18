@@ -245,6 +245,7 @@ class PointOfSales extends Controller {
     {
         $this->load->model('transaksi');
         $now = date('Y-m-d');
+        $jam = date('H:i:s');
         $print = $this->input->post('print');
         //ambil temp sales dalam sehari
         $query = $this->transaksi->total_sales_a_day($now);
@@ -285,7 +286,9 @@ class PointOfSales extends Controller {
             }
             fclose($file);
             //masuk2in datanya
+            
             $report = str_replace('<tanggal>',date_to_string($now),$report);
+            $report = str_replace('<jam>',$jam,$report);
             $report = str_replace('<omset>',number_format($sales->temp_sales,0,',','.').',-',$report);
             $report = str_replace('<total>',$total_qty,$report);
             $report = str_replace('<detail>',$detail,$report);
@@ -295,13 +298,73 @@ class PointOfSales extends Controller {
             fwrite($file,$report);
             fclose($file);
             //output to ajax
-            $this->send_receipt($resi);
+            $this->send_receipt($report);
         }
         else
         {
            _e($sales->temp_sales); 
         }
     }
+    
+    /**
+     * Print hasil mutasi masuk, format mirip temp sales 
+     */
+    function mutasi_print() 
+    {
+    	$this->load->model('barang');
+    	$now = date('Y-m-d');
+    	$jam = date('H:i:s');
+    	$print = $this->input->post('print');
+    	$tanggal = date('Y-m-d');
+    	$query = $this->barang->get_mutasi_print($tanggal);
+    	$total=0;
+    	$detail = '';
+    	$total_qty = 0;
+    	if($query->num_rows() > 0)
+    	{    	
+                
+                $i=0;$j=0;
+                foreach($query->result() as $row)
+                {
+                    $i++;
+                    if($i%3 == 0)
+                    {
+                        $detail .= $row->kelompok_barang.' : '.$row->total.'#';
+                    }
+                    else
+                    {
+                        $detail .= $row->kelompok_barang.' : '.$row->total.',  ';
+                    }
+                    $total_qty += $row->total;
+                    $j++;
+                }
+                $total=$j;
+    	}
+    	
+    	//open template file
+    	$file = fopen('lib/mutasi-print.txt','r');
+    	$report = '';
+    	while(!feof($file))
+    	{
+    		$report .= fgets($file);
+    	}
+    	fclose($file);
+    	//masuk2in datanya
+    	$report = str_replace('<tanggal>',date_to_string($now),$report);
+    	$report = str_replace('<jam>',$jam,$report);
+    	$report = str_replace('<kb>',$total,$report);
+    	$report = str_replace('<total>',$total_qty,$report);
+    	$report = str_replace('<detail>',$detail,$report);
+    	//tulis ke file txt
+    	$filename = 'lib/receipt-'.$this->session->userdata('nik').'-'.$this->session->userdata('no_shift').'.txt';
+    	$file = fopen($filename,'w');
+    	fwrite($file,$report);
+    	fclose($file);
+    	//output to ajax
+    	$this->send_receipt($report);
+    	
+    }
+    
     /**
     *refund barang
     */

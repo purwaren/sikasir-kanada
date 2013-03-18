@@ -338,6 +338,16 @@ class Barang extends Model
         $query = 'update barang set stok_barang=stok_opname, stok_awal=stok_opname, mutasi_masuk=0, mutasi_keluar=0, stok_opname=0 ';
         return $this->db->query($query);
     }
+    
+    /**
+     * Ambil barang masuk diakumulasi berdasarkan kelompok barang
+     */
+    function get_mutasi_print($tanggal)
+    {
+    	$sql = 'select sum(bm.qty) as total, b.kelompok_barang from barang_masuk bm left join barang b
+    			on bm.id_barang = b.id_barang where bm.tanggal = "'.$tanggal.'" group by b.kelompok_barang';
+    	return $this->db->query($sql);
+    }
 }
 //End of file barang.php
 //Location; System/application/models
