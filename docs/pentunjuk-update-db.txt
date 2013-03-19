@@ -1,0 +1,6 @@
+Step by step update database kanada
+1. Backup database kanada ambil datanya saja, tidak usah structure nya
+2. Backup database kanada ambil struktur dan datanya, ini untuk jaga2 kalo step langkah 1 ada error.
+3. Hapus database kasir kanada, lalu buat lagi database kasir kanada
+4. Import file kanada.sql
+5. Import backup yang datanya saja, hasil pada langkah 1.
