@@ -65,10 +65,15 @@ try {
 		*Listen event keyup, untuk shortcut dan lain lain.
 		*/        
 		$(window).keyup(function(event){               
-			//$('#trigger').html(event.keyCode); 
+			$('#trigger').html(event.keyCode); 
             //F2 -- fokus ke text box kode label / barcode
 			if(event.keyCode == 113) {
 				$('#barcode').focus();
+			}
+			//CTRL -- open price
+			if(event.keyCode == 17) {
+				var num = $('#row-data tr').length - 1;
+				$('#harga_jual_'+num).focus();
 			}
             //F4 --disc per item
             if(event.keyCode == 115) {
@@ -293,7 +298,7 @@ try {
 			//keycode : 46 -- delete            
 			//keycode : 48-57 && 96-105 -- numeric
             //keyCode : 27 -- escape
-			if(!((event.keyCode >= 112 && event.keyCode <= 123) || event.keyCode==18 || event.keyCode == 35 || event.keyCode == 33 ||event.keyCode == 34 || event.keyCode == 32 || event.keyCode == 45  || event.keyCode == 36 || event.keyCode == 46 || event.keyCode == 13 || event.keyCode == 8 || event.keyCode == 27 || (event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105))){
+			if(!((event.keyCode >= 112 && event.keyCode <= 123) || event.keyCode==18 || event.keyCode==17 || event.keyCode == 35 || event.keyCode == 33 ||event.keyCode == 34 || event.keyCode == 32 || event.keyCode == 45  || event.keyCode == 36 || event.keyCode == 46 || event.keyCode == 13 || event.keyCode == 8 || event.keyCode == 27 || (event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105))){
 				displayNotification('Hanya boleh diisi angka');				
 			}
 			else {
@@ -522,12 +527,17 @@ function appendRow(data){
             num = parseInt(num);
         }
         validateQtyById(data.id_barang,data.stok_barang);
+        var info_harga ='';
         if(statusQty == true){
-           var row = '<tr class="row">';
+        	if(openPrice)
+        		info_harga = '<td width="15%" style=" text-align: right;"><input type="text" id="harga_jual_'+num+'" value="'+addCommas(data.harga)+'" style="text-align:right;font-size:12pt;width:100px" class="currency" onblur="checkPrice('+num+')"/><input type="hidden" id="harga_'+num+'" value="'+data.harga+'"/><input type="hidden" id="harga_ori_'+num+'"value="'+data.harga+'"/></td>';
+        	else
+        		info_harga = '<td width="15%" style=" text-align: right;"><input type="text" id="harga_jual_'+num+'" value="'+addCommas(data.harga)+'" style="text-align:right;font-size:12pt;width:100px" class="currency" readonly="readonly"/><input type="hidden" id="harga_'+num+'" value="'+data.harga+'"/></td>';
+        	var row = '<tr class="row">';
             row += '<td width="5%" style=" text-align: center;" class="num">'+ (num + 1)+ '</td>';
             row += '<td width="15%"style=" text-align: center;">'+data.id_barang+'</td>';
             row += '<td width="25%">'+data.nama+'</td>';
-            row += '<td width="15%" style=" text-align: right;">'+$.currency(data.harga,{s:".",d:",",c:0})+',-'+'<input type="hidden" id="harga_'+num+'" value="'+data.harga+'"/></td>';
+            row += info_harga;
             row += '<td width="10%" style=" text-align: center;"><input type="text" size="5" style="text-align:center" id="diskon_'+num+'" value="'+data.diskon+'" onkeyup="countTotal('+num+')" ></td>';
             row += '<td width="10%" style=" text-align: center;"><input type="text" size="5" style="text-align:center" name="qty" id="qty_'+num+'" value="1" onkeyup="countTotal('+num+');validateQty('+num+');"><input type="hidden" id="stok_'+num+'" value="'+data.stok_barang+'"/></td>';
             row += '<td width="20%" style=" text-align: right;"><span id="jumlah_'+num+'">'+$.currency(data.harga,{s:".",d:",",c:0})+',-'+'</span><input type="hidden" id="jmlh_'+num+'" value="'+data.harga+'"/></td>';
@@ -549,7 +559,17 @@ function appendRow(data){
             else {            
                 $('#row-data').append(row);
                 countTotal(num);
-            }            
+            }   
+            $('.currency').keyup(function(event){            	
+            	var tmp = removeCommas($(this).val());
+            	if(tmp == '')
+            		tmp = 0;
+            	else
+            		$(this).val(addCommas(tmp));            	
+            	$(this).parent().children(':nth-child(2)').val(tmp);
+            	var line = parseInt($(this).parent().parent().children(':first-child').html());
+            	countTotal(line-1);
+            });
             $('#barcode').val('');
         }
     }
@@ -557,6 +577,21 @@ function appendRow(data){
         displayNotification('Kode item tersebut tidak terdaftar dalam database');
     }
 }
+/**
+ * Cek harga jual harus lebih besar dari harga minimal
+ * @param msg
+ * @returns {String}
+ */
+function checkPrice(num) {
+	var harga = parseFloat($('#harga_'+num).val());
+	var harga_ori = parseFloat($('#harga_ori_'+num).val());
+	if(harga < harga_ori) {
+		alert('Harga jual harus lebih besar dari harga jual minimal');
+		$('#harga_jual_'+num).val('');
+		$('#harga_jual_'+num).focus();
+	}
+}
+
 /*formatting message*/
 function formatMsg(msg) {
     var message = '';
@@ -570,7 +605,7 @@ function formatMsg(msg) {
 }
 function spacer(n) {
     var msg = '';
-    for(i=0;i < n;i++) {
+    for(var i=0;i < n;i++) {
         msg += ' ';
     }
     return msg;
@@ -644,12 +679,12 @@ function digitalClock() {
 }
 /* Display message to PD Series */
 function displayMsg(msg) {
-    $.post(
+    /*$.post(
             "get_kassa",                     
             function(kassa){                        
                // $('#appletPrinter')[0].writeMessage(msg,kassaServer[kassa]);          
             }        
-    );    
+    );*/    
 }
 /*Print receipt*/
 function printReceipt(mode,tunai,id_transaksi) {    
@@ -766,7 +801,7 @@ function payTrans(mop) {
     else {
         num = parseInt(num);
     }
-    var rowData = $('#row-data tr');
+    //var rowData = $('#row-data tr');
     var id_barang = new Array();
     var nama_barang = new Array();
     var harga_barang = new Array();
@@ -780,8 +815,8 @@ function payTrans(mop) {
     var item_valid = 0;
     total = total*(1- (disc_all/100));
     total = Math.floor(total/100) * 100;
-    var check = "";
-    for(i=0; i<num; i++) {        
+    //var check = "";
+    for(var i=0; i<num; i++) {        
         cek = $('#row-data tr:nth-child('+(i+1)+')').css('text-decoration');        
         if(cek == "none") {            
             id_barang[i] = $('#row-data tr:nth-child('+(i+1)+') td:nth-child(2)').html();
@@ -812,7 +847,7 @@ function payTrans(mop) {
             //send ajax request, saving transaction data to database
             $.post(
                 "transaction",
-                {'id_trans': id_transaksi, 'id_barang[]': id_barang,'item_valid':item_valid,'qty[]': qty,'disc[]':disc,'jumlah[]':jumlah,'id_pramu':id_pramuniaga,'disc_all':disc_all,'total':total},
+                {'id_trans': id_transaksi, 'id_barang[]': id_barang,'harga_barang':harga_barang,'item_valid':item_valid,'qty[]': qty,'disc[]':disc,'jumlah[]':jumlah,'id_pramu':id_pramuniaga,'disc_all':disc_all,'total':total},
                 function(data){
                     //success
                     if(data == 1) { 
@@ -991,7 +1026,7 @@ function validateQty(num) {
     var id_barang = $('#row-data tr:nth-child('+(num+1)+') td:nth-child(2)').html();
     var line = $('#row-data tr:contains("'+id_barang+'") td:nth-child(6) input[name="qty"]');
     var total_qty = 0;
-    for(i=0;i<line.length;i++) {
+    for(var i=0;i<line.length;i++) {
         idx = line[i].getAttribute('id');
         temp = $('#'+idx).val();
         if(temp=="") {
@@ -1027,7 +1062,7 @@ function validateQtyById(id_barang,stock) {
     var line = $('#row-data tr:contains("'+id_barang+'") td:nth-child(6) input[name="qty"]');
     if(line.length > 0) {
         var total_qty = 0;
-        for(i=0;i<line.length;i++) {
+        for(var i=0;i<line.length;i++) {
             idx = line[i].getAttribute('id');
             temp = $('#'+idx).val();
             if(temp=="") {
@@ -1059,7 +1094,7 @@ function validateQtyRefund(item_code, qty) {
     var line = $('#detail-tukar tr:contains('+item_code+') td:nth-child(6) input:text');
     var total_qty = 0;
     if(line.length > 0) {        
-        for(i=0;i<line.length;i++) {
+        for(var i=0;i<line.length;i++) {
             idx = line[i].getAttribute('id');
             temp = $('#'+idx).val();
             if(temp=="") {
@@ -1083,9 +1118,10 @@ function validateQtyGanti(item_code, qty) {
     //var item_code = $('#detail-pengganti tr:nth-child('+(num+1)+') td:nth-child(2)').html();
     //search all line contain this item_code
     var line = $('#detail-pengganti tr:contains('+item_code+') td:nth-child(6) input:text');
+    var total_qty= 0;
     if(line.length > 0) {
-        var total_qty = 0;
-        for(i=0;i<line.length;i++) {
+        total_qty = 0;
+        for(var i=0;i<line.length;i++) {
             idx = line[i].getAttribute('id');
             temp = $('#'+idx).val();
             if(temp=="") {
@@ -1133,7 +1169,7 @@ function countAllTotal() {
         num = parseInt(num);
     }
     var totalAll = 0;
-    for(i=0;i<num;i++){
+    for(var i=0;i<num;i++){
         totalAll += parseFloat($('#jmlh_'+i).val());        
     }
     $('#total_val').val(totalAll);    
@@ -1188,7 +1224,7 @@ function searchItem() {
 */
 function getItem(option) {
     //ambil id barang
-    var id;
+    var id='';
     if(option==1) {
         id = $('#barang-tukar').val();
     }
@@ -1263,7 +1299,7 @@ function countRefund() {
     //hitung semua barang yang direfund
     var temp = $('#detail-tukar tr');
     var total_tukar = 0;
-    for(i=1;i<temp.length;i++) {
+    for(var i=1;i<temp.length;i++) {
         harga = parseFloat($('#harga_tukar_'+i).val());
         qty = $('#qty_refund_'+i).val();
         if(qty == "") {
@@ -1284,7 +1320,7 @@ function countRefund() {
 function countPengganti() {
     var temp = $('#detail-pengganti tr');
     var total_ganti = 0;
-    for(i=1;i<temp.length;i++) {
+    for(var i=1;i<temp.length;i++) {
         harga = parseFloat($('#harga_pengganti_'+i).val());
         qty = $('#qty_ganti_'+i).val();
         if(qty == "") {
@@ -1307,7 +1343,7 @@ function displayRefundInfo() {
         var total_tukar = parseFloat($('#total_tukar').val());
         var total_pengganti = parseFloat($('#total_pengganti').val());
         var kurang = total_pengganti - total_tukar;
-        var sisa = total_tukar - total_pengganti;
+        //var sisa = total_tukar - total_pengganti;
         kurang = Math.floor(kurang/100) * 100;
         
         if(total_pengganti >= total_tukar) {
@@ -1331,11 +1367,12 @@ function displayRefundInfo() {
 *Kasih tanda ratusan / ribuan
 */
 function viewCash(opsi) {
+	var cash = 0;
     if(opsi ==  1) {
-        var cash = $('#trans-cash').val();
+        cash = $('#trans-cash').val();
     }
     if(opsi == 2) {
-        var cash = $('#refund-cash').val();
+        cash = $('#refund-cash').val();
     }
     if(cash == "") {
         cash = 0;
@@ -1376,4 +1413,28 @@ function removeFocus(){
 */
 function setFocus(){
     searchFocus=true;    
+}
+
+/**
+ * Adding comma, formatting number
+ */
+function addCommas(nStr) {
+	nStr += '';
+	x = nStr.split('.');
+	x1 = x[0];
+	x2 = x.length > 1 ? '.' + x[1] : '';
+	var rgx = /(\d+)(\d{3})/;
+	while (rgx.test(x1)) {
+		x1 = x1.replace(rgx, '$1' + ',' + '$2');
+	}
+	return x1 + x2;
+}
+
+/**
+ * Removing comma, get the number
+ */
+function removeCommas(nStr) {
+	if(nStr=='')
+		nStr='0';
+	return parseFloat(nStr.replace(/,/g,''));
 }

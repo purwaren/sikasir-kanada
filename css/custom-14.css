@@ -3,7 +3,7 @@ body {
 }
 .dialog-form {	
 	border: 1px solid;
-	cursor: none;
+	
 }
 .dialog-form #container {
 	background: url('images/shop.jpg') no-repeat;

@@ -114,6 +114,7 @@ class PointOfSales extends Controller {
         $jumlah = $this->input->post('jumlah');
         $total = $this->input->post('total');
         $disc_all = $this->input->post('disc_all');
+        $harga_barang = $this->input->post('harga_barang');
         $now = date('Y-m-d');
         //insert data ke tabel transaksi penjualan        
         $data = array(
@@ -136,12 +137,25 @@ class PointOfSales extends Controller {
             {
                 if($row >= 0)
                 {
-                    $data = array(
-                        'id_transaksi'=>$id_transaksi,
-                        'id_barang'=>$id_barang[$i],                        
-                        'qty'=>$qty[$i],
-                        'diskon'=>$disc[$i]
-                        );
+                	if(config_item('open_price'))
+                	{
+	                    $data = array(
+	                        'id_transaksi'=>$id_transaksi,
+	                        'id_barang'=>$id_barang[$i],                        
+	                        'qty'=>$qty[$i],
+	                        'diskon'=>$disc[$i],
+	                        'harga_jual'=>$harga_barang[$i]
+	                    );
+                	}
+                	else
+                	{
+                		$data = array(
+                			'id_transaksi'=>$id_transaksi,
+                			'id_barang'=>$id_barang[$i],                        
+                			'qty'=>$qty[$i],
+                			'diskon'=>$disc[$i]
+                		);
+                	}
                     //insert ke item transaksi
                     $this->item_transaksi->add_item_transaksi($data);
                     //update table barang
@@ -149,7 +163,7 @@ class PointOfSales extends Controller {
                     $data = array(
                             'stok_barang'=>$qty[$i],
                             'jumlah_terjual'=>$qty[$i]
-                        );
+                    );
                     $this->barang->update_barang($cond,$data);
                 }
                 $i++;
@@ -489,6 +503,9 @@ class PointOfSales extends Controller {
                     {
                         $brg_query = $this->barang->get_barang($row->id_barang,2);
                         $barang = $brg_query->row();
+                        //open price atau bukan 
+                        if(config_item('open_price'))
+                        	$barang->harga = $row->harga_jual;                      
                         $sub = $row->qty * $barang->harga;
                         //$subtotal += $sub;
                         $all += $row->qty;

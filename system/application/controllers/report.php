@@ -111,6 +111,8 @@ class Report extends Controller {
                                 {
                                     $query_kry = $this->karyawan->get_karyawan($row[$i]->id_kasir);
                                     $barang = $query_brg->row();
+                                    if(config_item('open_price'))
+                                    	$barang->harga = $row[$i]->harga_jual;
                                     $kasir = $query_kry->row();                                
                                     $jumlah = $row[$i]->qty * $barang->harga;
                                     $jumlah_blm_diskon = $jumlah;

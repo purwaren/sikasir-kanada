@@ -13,7 +13,8 @@
             <tr>
                 <td>Tanggal Penginputan</td>
                 <td>: <input type="text" name="date_input" id="date-input" readonly="readonly"/>            
-                <span class="button">&nbsp;<input type="submit" name="submit_item_manage" value="Display" class="button"/></span>            
+                <span class="button">&nbsp;<input type="submit" name="submit_item_manage" value="Display" class="button"/></span>         
+                
             </td></tr>          
         </table>
         <p style="color:red"><?php if(isset($err_msg)) _e($err_msg) ?></p>        

@@ -23,7 +23,14 @@ $config['work_cycle'] = 8;
 /**
  * Port printer
  */
-$config['port'] = 1234;
+$config['port'] = 20000;
+
+/**
+ * Setting open price
+ * true -> enabled
+ * false ->disabled
+ */
+$config['open_price'] = true;
 
 /**
  * Set timezone

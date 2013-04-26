@@ -67,7 +67,7 @@ class Transaksi extends Model
     */
     function trans_a_day($date)
     {
-        $query = 'select time(from_unixtime(substr(transaksi_penjualan.id_transaksi,1,10))) as jam_transaksi, transaksi_penjualan.*,id_barang,sum(qty) as qty,item_transaksi_penjualan.diskon as diskon_item 
+        $query = 'select time(from_unixtime(substr(transaksi_penjualan.id_transaksi,1,10))) as jam_transaksi, transaksi_penjualan.*,id_barang,sum(qty) as qty,item_transaksi_penjualan.diskon as diskon_item, harga_jual 
                 from transaksi_penjualan left join item_transaksi_penjualan on transaksi_penjualan.id_transaksi = item_transaksi_penjualan.id_transaksi 
                 where tanggal ="'.$date.'"
                 group by jam_transaksi,id_barang
