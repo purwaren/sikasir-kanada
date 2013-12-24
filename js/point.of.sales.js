@@ -533,7 +533,7 @@ function appendRow(data){
         		info_harga = '<td width="15%" style=" text-align: right;"><input type="text" id="harga_jual_'+num+'" value="'+addCommas(data.harga)+'" style="text-align:right;font-size:12pt;width:100px" class="currency" onblur="checkPrice('+num+')"/><input type="hidden" id="harga_'+num+'" value="'+data.harga+'"/><input type="hidden" id="harga_ori_'+num+'"value="'+data.harga+'"/></td>';
         	else
         		info_harga = '<td width="15%" style=" text-align: right;"><input type="text" id="harga_jual_'+num+'" value="'+addCommas(data.harga)+'" style="text-align:right;font-size:12pt;width:100px" class="currency" readonly="readonly"/><input type="hidden" id="harga_'+num+'" value="'+data.harga+'"/></td>';
-        	var row = '<tr class="row">';
+        	var row = '<tr class="row" style="text-decoration:none">';
             row += '<td width="5%" style=" text-align: center;" class="num">'+ (num + 1)+ '</td>';
             row += '<td width="15%"style=" text-align: center;">'+data.id_barang+'</td>';
             row += '<td width="25%">'+data.nama+'</td>';

@@ -6,8 +6,8 @@ Tanggal  : <tanggal>#
 Jam      : <jam>#
 Total    : <kb> macam#
 Total Qty: <total> items#
-#
-MUTASI MASUK PER KELOMPOK BARANG #
+ #
+MUTASI MASUK PER KELOMPOK BARANG#
 ---------------------------------#
-<detail>#
+<detail> #
 --------------o00o---------------#
