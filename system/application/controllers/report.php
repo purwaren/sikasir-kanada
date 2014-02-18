@@ -635,7 +635,7 @@ class Report extends Controller {
                         $this->data['row_data'] .= '<tr>
                                                         <td>'.++$i.'</td><td>'.$row->id_barang.'</td><td>'.$row->nama.'</td>
                                                         <td>'.number_format($row->harga,0,',','.').'</td><td>'.$row->diskon.'</td><td>'.$row->total_barang.'</td>
-                                                        <td>'.$row->stok_barang.'</td><td>'.$row->mutasi_masuk.'</td><td>'.$row->mutasi_keluar.'</td>
+                                                        <td>'.$row->mutasi_masuk.'</td><td>'.$row->mutasi_keluar.'</td><td>'.$row->stok_barang.'</td>
                                                     </tr>';                        
                     }
                     else

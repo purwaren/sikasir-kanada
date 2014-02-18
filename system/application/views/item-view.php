@@ -50,7 +50,7 @@
         <table class="table-data" cellspacing="0" cellpadding="0" style="width:100%">
             <tr>
                 <td class="head"> No </td><td class="head"> Kode Barang </td><td class="head"> Nama Barang </td><td class="head"> Harga (Rp) </td><td class="head">Disc (%) </td><td class="head"> Total Barang </td>
-                <td class="head">Stok Barang </td> <td class="head"> Mutasi Masuk </td><td class="head">Mutasi Keluar</td>           
+                <td class="head"> Mutasi Masuk </td><td class="head">Mutasi Keluar</td> <td class="head">Stok Barang </td>          
             </tr>
             <?php _e($row_data) ?>            
         </table>
