@@ -75,6 +75,9 @@ function findValue(li) {
         $('#disc_'+line).val(li.extra[3]);
         $('#stok_barang_'+line).val(li.extra[4]);
         $('#qty_'+line).focus();
+        $('#nama_'+line).attr('readonly','readonly');
+        $('#harga_'+line).attr('readonly','readonly');
+        $('#kel_barang_'+line).attr('readonly','readonly');
     }
     else {
         $('#dialog-msg p').html('<span style="color:red">Anda sudah menambahkan kode barang ini pada baris ke-'+check+'</span>');
