@@ -33,6 +33,12 @@ $config['port'] = 20000;
 $config['open_price'] = true;
 
 /**
+ * Setting length of item code
+ * default 10digit,
+ */
+$config['item_length'] = 15;
+
+/**
  * Set timezone
  */
 date_default_timezone_set("Asia/Jakarta");

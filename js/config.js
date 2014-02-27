@@ -40,3 +40,9 @@ defMsg[1] = 'TOKO KANADA';
  * false -> disabled
  */
 var openPrice = true;
+
+/**
+ * Setting item length
+ * Default 10 digit
+ */
+var itemLength=15;

@@ -199,7 +199,7 @@ function appendRowMutasi() {
     i++;
     var tr= '<tr class="row-data">';
         tr += '<td style="width: 20px;">'+i+'</td>';
-        tr +=  '<td style="width: 80px;"><input type="text" name="id_barang[]" maxlength="10" style="width:80px;" class="item_code ac_input" onkeyup="setFocus('+i+')" autocomplete="off"/></td>';
+        tr +=  '<td style="width: 80px;"><input type="text" name="id_barang[]" maxlength="'+itemLength+'" style="width:105px;" class="item_code ac_input" onkeyup="setFocus('+i+')" autocomplete="off"/></td>';
         tr +=  '<td style="width: 150px;"><input type="text" name="nama[]" id="nama_'+i+'" style="width:150px;"/></td>';
         tr +=  '<td style="width: 30px;"><input type="text" name="kel_barang[]" id="kel_barang_'+i+'" style="width:30px;"/></td>';
         tr +=  '<td style="width: 120px;"><input type="text" name="harga[]" id="harga_'+i+'" style="width:120px;" onkeyup="hitungJumlah('+i+')"/></td>';
@@ -214,6 +214,19 @@ function appendRowMutasi() {
     $('body').append(div);
     //hitung row toal
     hitungTotal();
+    $(".item_code").autocomplete (
+			baseUrl+"item/item_autocomplete",
+			{
+				delay:10,
+				minChars:2,
+				matchSubset:1,
+				matchContains:1,
+				cacheLength:10,	
+				onItemSelect:selectItem,
+				onFindValue:findValue,
+				autoFill:false
+			}
+		);
 }
 //hitung jumlah untuk mutasi masuk
 function hitungJumlah(num) {

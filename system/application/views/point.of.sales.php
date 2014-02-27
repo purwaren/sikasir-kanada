@@ -120,7 +120,7 @@
                 Rp. <input type="text" id="total" name="total" value ="0" readonly="readonly"/><input type="hidden" id="total_val" value="0"/></td>
         </tr>
         <tr>
-            <td style="width: 150px; text-align: right;">KODE LABEL </td><td>: <input type="text" name="barcode" id="barcode" maxlength="10"/></td>				
+            <td style="width: 150px; text-align: right;">KODE LABEL </td><td>: <input type="text" name="barcode" id="barcode" maxlength="<?php echo config_item('item_length'); ?>"/></td>				
         </tr>
         <tr>
             <td class="kasir" colspan="2">
