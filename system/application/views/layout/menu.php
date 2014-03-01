@@ -40,7 +40,8 @@
     <p style="float:left;text-align: left; padding-right: 20px;">
         <a href="<?php _e(base_url().'item/add')?>">Mutasi Masuk</a> .:. 
         <a href="<?php _e(base_url().'item/retur')?>">Retur Barang</a> .:.                
-        <a href="<?php _e(base_url().'item/manage')?>">Manajemen Data</a> 
+        <a href="<?php _e(base_url().'item/manage')?>">Manajemen Data</a> .:.
+        <a href="<?php _e(base_url().'item/import')?>">Import Data</a> 
     </p>
     <?php } if($page=='user') { ?>
     <p style="float:left;text-align: left; padding-right: 20px;">
