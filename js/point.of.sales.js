@@ -226,7 +226,7 @@ try {
                 displayMsg(formatMsg(msg));
             }
             //End - Total penjualan hari ini
-            if(event.keyCode == 35) {
+            if(event.keyCode == 16) {
                 //ambil data total penjualan
                 $.post(
                     "temp_sales",                    
@@ -234,12 +234,15 @@ try {
                         $('#sales').html('Rp. '+$.currency(data,{s:".",d:",",c:0})+',-');
                         $('#dialog-sales').dialog({                     
                             modal: true,
-                            width: 340,
+                            width: 370,
                             buttons: {
                             	'Batal' : function() {
                                     $(this).dialog('close');
                                 },
-                                'Cetak Mutasi' : function() {
+                                'Retur' : function() {
+                                    printRetur();                                    
+                                },
+                                'Mutasi' : function() {
                                     printMutasi();                                    
                                 },
                                 'Cetak' : function() {
@@ -743,6 +746,26 @@ function printTempSales() {
 function printMutasi() {
     $.post(
         "mutasi_print",
+        {print: '1'}, 
+        function(receipt){
+            /*$.post(
+                    "get_kassa",                     
+                    function(kassa){                        
+                        $('#appletPrinter')[0].sendReceipt(receipt,kassaServer[kassa]);
+                        //alert(receipt);
+                    }        
+            );*/             
+        }        
+    );
+    $('#dialog-sales').dialog('close');
+}
+
+/**
+ * Print Retur
+ */
+function printRetur() {
+    $.post(
+        "retur_print",
         {print: '1'}, 
         function(receipt){
             /*$.post(

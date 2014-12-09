@@ -348,6 +348,16 @@ class Barang extends Model
     			on bm.id_barang = b.id_barang where bm.tanggal = "'.$tanggal.'" group by b.kelompok_barang';
     	return $this->db->query($sql);
     }
+    
+    /**
+     * Ambil barang retur diakumulasi berdasarkan kelompok barang
+     */
+    function get_retur_print($tanggal)
+    {
+    	$sql = 'select sum(bm.qty) as total, b.kelompok_barang from retur_barang bm left join barang b
+    			on bm.id_barang = b.id_barang where bm.tanggal = "'.$tanggal.'" group by b.kelompok_barang';
+    	return $this->db->query($sql);
+    }
 }
 //End of file barang.php
 //Location; System/application/models

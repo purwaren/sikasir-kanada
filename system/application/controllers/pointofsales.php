@@ -265,7 +265,8 @@ class PointOfSales extends Controller {
         $query = $this->transaksi->total_sales_a_day($now);
         if($query->num_rows())
         {
-            $sales = $query->row();            
+            $sales = $query->row();    
+            $disc = $this->transaksi->total_disc_a_day($now)->row();        
         }
         //klo print tampilin lengkap+ penjualan per kode barang
         if(isset($print) && $print==1) 
@@ -304,6 +305,7 @@ class PointOfSales extends Controller {
             $report = str_replace('<tanggal>',date_to_string($now),$report);
             $report = str_replace('<jam>',$jam,$report);
             $report = str_replace('<omset>',number_format($sales->temp_sales,0,',','.').',-',$report);
+            $report = str_replace('<diskon>',number_format($disc->total_diskon,0,',','.').',-',$report);
             $report = str_replace('<total>',$total_qty,$report);
             $report = str_replace('<detail>',$detail,$report);
             //tulis ke file txt             
@@ -377,6 +379,65 @@ class PointOfSales extends Controller {
     	//output to ajax
     	$this->send_receipt($report);
     	
+    }
+    
+    /**
+     * Print rekap retur barang, format mirip temp sales
+     */
+    function retur_print()
+    {
+    	$this->load->model('barang');
+    	$now = date('Y-m-d');
+    	$jam = date('H:i:s');
+    	$print = $this->input->post('print');
+    	$tanggal = date('Y-m-d');
+    	$query = $this->barang->get_retur_print($tanggal);
+    	$total=0;
+    	$detail = '';
+    	$total_qty = 0;
+    	if($query->num_rows() > 0)
+    	{
+    
+    		$i=0;$j=0;
+    		foreach($query->result() as $row)
+    		{
+    			$i++;
+    			if($i%3 == 0)
+    			{
+    				$detail .= $row->kelompok_barang.' : '.$row->total.'#';
+    			}
+    			else
+    			{
+    				$detail .= $row->kelompok_barang.' : '.$row->total.',  ';
+    			}
+    			$total_qty += $row->total;
+    			$j++;
+    		}
+    		$total=$j;
+    	}
+    	 
+    	//open template file
+    	$file = fopen('lib/retur-print.txt','r');
+    	$report = '';
+    	while(!feof($file))
+    	{
+    		$report .= fgets($file);
+    	}
+    	fclose($file);
+    	//masuk2in datanya
+    	$report = str_replace('<tanggal>',date_to_string($now),$report);
+    	$report = str_replace('<jam>',$jam,$report);
+    	$report = str_replace('<kb>',$total,$report);
+    	$report = str_replace('<total>',$total_qty,$report);
+    	$report = str_replace('<detail>',$detail,$report);
+    	//tulis ke file txt
+    	$filename = 'lib/receipt-'.$this->session->userdata('nik').'-'.$this->session->userdata('no_shift').'.txt';
+    	$file = fopen($filename,'w');
+    	fwrite($file,$report);
+    	fclose($file);
+    	//output to ajax
+    	$this->send_receipt($report);
+    	 
     }
     
     /**

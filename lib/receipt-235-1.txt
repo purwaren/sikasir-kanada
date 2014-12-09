@@ -2,28 +2,12 @@ MODE FASHION PERBAUNGAN#
 Jln. Serdang No. 141#
 Telp.(061) 799 0009#
 =================================#
-Tanggal: 2013-06-07 11:13:49#
+Tanggal  : 09 Desember 2014#
+Jam      : 21:33:06#
+Total    : 2 macam#
+Total Qty: 2 items#
  #
-        DETAIL TRANSAKSI#
-0111100002 DST RNDA SYAHRINI#
-               1 @37.900 = 37.900#
-0111100006 DST RND MDL#
-               1 @42.900 = 42.900#
-0111100007 DST JUMPUT AIDA#
-               1 @42.900 = 42.900#
-
-3 items#
-------------------------------(+)#
-Subtotal =                123.700#
-
-------------------------------(-)#
-Total   :                 123.700#
-Tunai   :                 125.000#
-Kembali :                   1.300#
-=================================#
-Kasir : Merisa#
-Pramuniaga: Sari Dewi#
- #
-          TERIMAKASIH# 
-    BERBELANJA DENGAN KAMI#
-           --o00o--#
+RETUR PER KELOMPOK BARANG#
+---------------------------------#
+001 : 1,  072 : 1,   #
+--------------o00o---------------#

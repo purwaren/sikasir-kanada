@@ -96,6 +96,17 @@ class Transaksi extends Model
         return $this->db->query($query);
     }
     /**
+     * Total diskon dalam satu hari
+     */
+    function total_disc_a_day($date)
+    {
+    	$sql = 'select sum(diskon+diskon_item) as total_diskon from (select  id_transaksi, (diskon/100*total) AS diskon from transaksi_penjualan tp where tanggal = "'.$date.'" ORDER BY `tanggal` DESC) t1 
+		left join 
+		(select id_transaksi, sum(dt.diskon/100*harga) as diskon_item from item_transaksi_penjualan dt left join barang b on dt.id_barang=b.id_barang group by id_transaksi) t2
+		on t1.id_transaksi = t2.id_transaksi';
+    	return $this->db->query($sql);
+    }
+    /**
     * ambil total item terjual per hari dalam satu bulan
     */
     function total_qty_sales($month,$year)

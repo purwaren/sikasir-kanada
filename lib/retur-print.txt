@@ -4,11 +4,10 @@ Telp.(061) 799 0009#
 =================================#
 Tanggal  : <tanggal>#
 Jam      : <jam>#
-Omset    : Rp <omset>#
-Diskon   : Rp <diskon>#
+Total    : <kb> macam#
 Total Qty: <total> items#
-#
-DETAIL PER KELOMPOK BARANG #
+ #
+RETUR PER KELOMPOK BARANG#
 ---------------------------------#
-<detail>#
+<detail> #
 --------------o00o---------------#
