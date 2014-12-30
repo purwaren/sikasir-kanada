@@ -226,7 +226,7 @@ try {
                 displayMsg(formatMsg(msg));
             }
             //End - Total penjualan hari ini
-            if(event.keyCode == 16) {
+            if(event.keyCode == 35) {
                 //ambil data total penjualan
                 $.post(
                     "temp_sales",                    

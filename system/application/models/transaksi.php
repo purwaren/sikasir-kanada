@@ -100,10 +100,10 @@ class Transaksi extends Model
      */
     function total_disc_a_day($date)
     {
-    	$sql = 'select sum(diskon+diskon_item) as total_diskon from (select  id_transaksi, (diskon/100*total) AS diskon from transaksi_penjualan tp where tanggal = "'.$date.'" ORDER BY `tanggal` DESC) t1 
+    	$sql = 'select sum((t2.total*diskon/100)+diskon_item) as total_diskon from transaksi_penjualan t1 
 		left join 
-		(select id_transaksi, sum(dt.diskon/100*harga) as diskon_item from item_transaksi_penjualan dt left join barang b on dt.id_barang=b.id_barang group by id_transaksi) t2
-		on t1.id_transaksi = t2.id_transaksi';
+		(select id_transaksi, sum(dt.qty*harga*(1-dt.diskon/100)) as total,sum(dt.diskon/100*harga) as diskon_item from item_transaksi_penjualan dt left join barang b on dt.id_barang=b.id_barang group by id_transaksi) t2
+		on t1.id_transaksi = t2.id_transaksi where t1.tanggal="'.$date.'"';
     	return $this->db->query($sql);
     }
     /**
